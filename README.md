@@ -1,4 +1,5 @@
 🚨 IoT Anomaly Detector
+
 ⚡ Machine-Learning Based Attack Detection for Bot-IoT & IoT-23 Datasets
 
 Frontend Dashboard + Flask Backend + ML Models
@@ -30,13 +31,17 @@ The dashboard allows you to:
 
 
 🔹 Dashboard – Run Prediction
+<img width="1899" height="859" alt="image" src="https://github.com/user-attachments/assets/4ad6deed-c678-4599-92a7-6ceea09bc273" />
 
 
 
 🔹 Confusion Matrix
+<img width="817" height="555" alt="image" src="https://github.com/user-attachments/assets/88490514-62ad-442d-935c-246fb6a44a87" />
+
 
 🔹 Device Summary Page
 
+<img width="1886" height="855" alt="image" src="https://github.com/user-attachments/assets/e5af4eae-3cb9-4571-8878-26b752fd6dd8" />
 
 
 
