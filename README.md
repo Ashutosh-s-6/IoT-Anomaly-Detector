@@ -31,11 +31,13 @@ The dashboard allows you to:
 
 
 🔹 Dashboard – Run Prediction
+
 <img width="1899" height="859" alt="image" src="https://github.com/user-attachments/assets/4ad6deed-c678-4599-92a7-6ceea09bc273" />
 
 
 
 🔹 Confusion Matrix
+
 <img width="817" height="555" alt="image" src="https://github.com/user-attachments/assets/88490514-62ad-442d-935c-246fb6a44a87" />
 
 
@@ -87,6 +89,7 @@ Last seen time
 
 
 ⚙️ Installation & Setup
+
 1️⃣ Clone the repository
 git clone https://github.com/Ashutosh-s-6/IoT-Anomaly-Detector.git
 cd IoT-Anomaly-Detector
