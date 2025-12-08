@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IoT Anomaly Dashboard</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-pill">⚡</div>
+      <div class="app-title">
+        <div class="title">IoT Anomaly</div>
+        <div class="subtitle">Detection Console</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Overview</span>
+      </button>
+
+      <button class="nav-item" data-tab="devices">
+        <span class="nav-icon">🖧</span>
+        <span>Devices</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="version-pill">v0.1 • beta</span>
+    </div>
+  </aside>
+
+  <!-- MAIN COLUMN -->
+  <div class="main-column">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="page-title">Overview</div>
+        <div class="page-subtitle">Run anomaly detection for Bot-IoT & IoT-23 datasets</div>
+      </div>
+
+      <div class="topbar-right">
+        <label class="field-compact">
+          <span class="field-label">API Base</span>
+          <input id="apiBase" value="http://127.0.0.1:5000" size="26"/>
+        </label>
+        <button id="saveApi">Save</button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT (same sections as before) -->
+    <main>
+      <!-- DASHBOARD TAB -->
+      <section id="tab-dashboard">
+        <div class="card">
+          <div class="card-title-row">
+            <h2>Run Prediction</h2>
+            <span class="muted small">Upload CSV · pick model · tune threshold</span>
+          </div>
+
+          <div class="row" style="align-items:center">
+            <label class="field">
+              <span class="field-label">CSV file</span>
+              <input type="file" id="file" accept=".csv"/>
+            </label>
+
+            <label class="field">
+              <span class="field-label">Model</span>
+              <select id="modelSelect">
+                <option value="">Loading…</option>
+              </select>
+            </label>
+
+            <button id="runBtn" class="primary" disabled>Run Prediction</button>
+
+            <label class="field">
+              <span class="field-label">Threshold</span>
+              <input type="range" id="th" min="0" max="1" step="0.01" value="0.5"/>
+            </label>
+            <span id="thv" class="badge">0.50</span>
+            <button id="autoTh">Auto</button>
+          </div>
+
+          <div class="row" style="margin-top:8px; align-items:center; justify-content:space-between">
+            <div id="summary" class="muted"></div>
+            <span id="autoNote" class="muted small"></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title-row">
+            <h3>Metrics</h3>
+          </div>
+          <div id="kpis" class="kpis"></div>
+        </div>
+
+        <div class="grid2">
+          <div class="card chart-card">
+            <div class="card-title-row">
+              <h3>Normal vs Attack</h3>
+            </div>
+            <canvas id="donut" height="240"></canvas>
+          </div>
+          <div class="card chart-card">
+            <div class="card-title-row">
+              <h3>ROC Curve</h3>
+              <span id="aucBadge" class="badge subtle"></span>
+            </div>
+            <canvas id="roc" height="260"></canvas>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-title-row">
+            <h3>Confusion Matrix</h3>
+            <span class="muted small">Attack detection · Actual vs Predicted</span>
+          </div>
+
+          <!-- 2x2 matrix drawn on canvas -->
+          <canvas id="cm" width="420" height="420"></canvas>
+
+          <!-- Text summary under the matrix -->
+          <div id="cmNote" class="muted small" style="margin-top:8px">
+            <!-- Filled from script.js -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DEVICES TAB -->
+      <section id="tab-devices" style="display:none">
+        <div class="card">
+          <div class="card-title-row">
+            <h2>Devices</h2>
+            <span class="muted small">Built from the last uploaded CSV + selected model + threshold</span>
+          </div>
+
+          <div class="row toolbar">
+            <input id="deviceSearch" placeholder="Search device/IP or attack…"/>
+
+            <label class="field-compact">
+              <span class="field-label">Status</span>
+              <select id="deviceStatus">
+                <option value="">All</option>
+                <option value="RED">Under Attack</option>
+                <option value="GREEN">Normal</option>
+              </select>
+            </label>
+
+            <label class="field-compact">
+              <span class="field-label">Sort by</span>
+              <select id="deviceSort">
+                <option value="anomalies_desc">Anomalies ↓</option>
+                <option value="anomaly_rate_desc">Anomaly % ↓</option>
+                <option value="bytes_desc">Bytes ↓</option>
+                <option value="pkts_desc">Packets ↓</option>
+                <option value="device_asc">Device ↑</option>
+              </select>
+            </label>
+
+            <label class="field-compact">
+              <span class="field-label">Page size</span>
+              <select id="pageSize">
+                <option>10</option><option selected>25</option><option>50</option><option>100</option>
+              </select>
+            </label>
+
+            <label class="toggle">
+              <input type="checkbox" id="autoRefresh"/>
+              <span>Auto refresh</span>
+            </label>
+
+            <label class="field-compact">
+              <span class="field-label">Every (s)</span>
+              <input id="refreshSec" type="number" value="30" min="5" style="width:64px"/>
+            </label>
+
+            <button id="refreshDevices">Refresh Devices</button>
+          </div>
+
+          <div class="muted small" style="margin-bottom:8px">
+            Uses the same uploaded CSV + threshold + selected model to compute device status.
+          </div>
+
+          <div class="table-shell">
+            <table id="deviceTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Device (IP)</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Vendor</th>
+                  <th>MAC</th>
+                  <th>Packets</th>
+                  <th>Bytes</th>
+                  <th>Status</th>
+                  <th>Attack Type</th>
+                  <th>Anom %</th>
+                  <th>Last Seen</th>
+                  <th>Total Rows</th>
+                  <th>Anomalies</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="row pagination-row">
+            <div id="devicesNote" class="muted small"></div>
+            <div class="row">
+              <button id="prevPage">Prev</button>
+              <span id="pageInfo" class="muted small">Page 1/1</span>
+              <button id="nextPage">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Toast (optional, if you decide to use it later) -->
+<div id="toast" class="toast" aria-live="polite"></div>
+
+<script src="script.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+{
+  "metrics": {
+    "Accuracy": 1.0,
+    "Precision": 1.0,
+    "Recall (TPR)": 1.0,
+    "F1-score": 1.0,
+    "FPR": 0.0,
+    "TPR": 1.0,
+    "MSE": 0.0,
+    "AUC-ROC": 1.0
+  },
+  "cm": [
+    [
+      1500,
+      0
+    ],
+    [
+      0,
+      1500
+    ]
+  ]
+}

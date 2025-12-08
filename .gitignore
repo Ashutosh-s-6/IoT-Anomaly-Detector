@@ -1,0 +1,34 @@
+# ---- Python ----
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# ---- ML Model Files (Allowed)
+# DO NOT ignore .pkl so model files upload successfully
+# *.pkl   <-- removed
+
+# ---- Datasets (DO NOT upload large CSVs)
+datasets/
+*.csv
+*.zip
+
+# ---- Node / Frontend ----
+node_modules/
+dist/
+build/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- VS Code ----
+.vscode/
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+
+# ---- SQLite DB ----
+*.db

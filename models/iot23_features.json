@@ -1,0 +1,19 @@
+{
+  "features": [
+    "ts",
+    "id.orig_p",
+    "id.resp_p",
+    "duration",
+    "orig_bytes",
+    "resp_bytes",
+    "conn_state",
+    "local_orig",
+    "local_resp",
+    "missed_bytes",
+    "history",
+    "orig_pkts",
+    "orig_ip_bytes",
+    "resp_pkts",
+    "resp_ip_bytes"
+  ]
+}
