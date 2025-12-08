@@ -36,9 +36,12 @@ The dashboard allows you to:
 
 
 
+
 🔹 Confusion Matrix
 
 <img width="817" height="555" alt="image" src="https://github.com/user-attachments/assets/88490514-62ad-442d-935c-246fb6a44a87" />
+
+
 
 
 🔹 Device Summary Page
@@ -48,6 +51,7 @@ The dashboard allows you to:
 
 
 🚀 Features
+
 🟢 1. Multi-Model Support
 
 Bot-IoT ML model
